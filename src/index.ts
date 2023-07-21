@@ -5,7 +5,7 @@ import { buildSchema } from "type-graphql";
 import { dataSources } from "./dataSources";
 import { resolvers } from "./resolvers";
 
-async function main() {
+async function bootstrap() {
     const schema = await buildSchema({
         resolvers,
         emitSchemaFile: true
@@ -27,4 +27,4 @@ async function main() {
     );
 }
 
-main()
+bootstrap()

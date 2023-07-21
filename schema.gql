@@ -3,16 +3,87 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+"""Orgão da Justiça"""
 type Agency {
+  coletas: [SummaryzedMI!]
+
+  """'Tribunal', 'Ministério' or 'Conselho'."""
   entidade: String!
+
+  """'trt13'"""
   id_orgao: String!
+  indice_transparencia: Score
+
+  """'Estadual', 'Eleitroral', 'Militar', etc.."""
   jurisdicao: String!
+  meses_com_dados: Float
+
+  """'Tribunal Regional do Trabalho 13° Região'"""
   nome: String!
+
+  """Agencys's ombudsman url"""
   ouvidoria: String!
-  possui_dados: String!
+
+  """If there is data from that agency"""
+  possui_dados: Boolean
+  total_coletas_realizadas: Float
+
+  """Agencys's twitter handle"""
   twitter_handle: String!
+
+  """Short code for federative unity."""
   uf: String!
+
+  """ALink for state url"""
+  url: String
+}
+
+type AggregateIndexes {
+  agregado: Score!
+  detalhe: [IndexInformation!]
+  id_orgao: String!
+}
+
+type Backup {
+  hash: String!
+  size: Float!
   url: String!
+}
+
+type Collect {
+  duracao_segundos: Float!
+  repositorio_coletor: String!
+  repositorio_parser: String!
+  versao_coletor: String!
+  versao_parser: String!
+}
+
+type DataSummary {
+  max: Float!
+  media: Float!
+  min: Float
+  total: Float!
+}
+
+type IndexInformation {
+  ano: Float!
+  indice_transparencia: Score!
+  mes: Float
+  metadados: Metadata
+}
+
+type Metadata {
+  acesso: String!
+  dados_estritamente_tabulares: Boolean!
+  despesas: String!
+  extensao: String!
+  formato_aberto: Boolean!
+  manteve_consistencia_no_formato: Boolean!
+  outras_receitas: String!
+  remuneracao_basica: String!
+  tem_cargo: Boolean!
+  tem_lotacao: Boolean!
+  tem_matricula: Boolean!
 }
 
 type Mutation {
@@ -22,8 +93,70 @@ type Mutation {
 
 type Query {
   getAgencies: [Agency!]!
+  getAgency(id: String!): Agency!
+  getAggregateIndexes(
+    """Valores validos: grupo ou orgao"""
+    param: String!
+
+    """Jurisdição ou ID do órgão"""
+    valor: String!
+  ): [AggregateIndexes!]!
+  getAggregateIndexesByYear(
+    ano: Float!
+
+    """Valores validos: grupo ou orgao"""
+    param: String!
+
+    """Jurisdição ou ID do órgão"""
+    valor: String!
+  ): [AggregateIndexes!]!
+  getAggregateIndexesByYearAndMonth(
+    ano: Float!
+    mes: Float!
+
+    """Valores validos: grupo ou orgao"""
+    param: String!
+
+    """Jurisdição ou ID do órgão"""
+    valor: String!
+  ): [AggregateIndexes!]!
+  getDataByAgency(id: String!): Agency!
+  getDataByAgencyAndYear(id: String!, year: Float!): [SummaryzedMI!]!
+  getDataByAgencyAndYearAndMonth(id: String!, month: Float!, year: Float!): SummaryzedMI!
+  getIndexes: [AggregateIndexes!]!
+  getIndexesByYear(ano: Float!): [AggregateIndexes!]!
+  getIndexesByYearAndMonth(ano: Float!, mes: Float!): [AggregateIndexes!]!
   getUser(id: Float!): User!
   getUsers: [User!]!
+}
+
+type Score {
+  indice_completude: Float!
+  indice_facilidade: Float!
+  indice_transparencia: Float!
+}
+
+type Summaries {
+  membros_ativos: Summary!
+}
+
+type Summary {
+  descontos: DataSummary!
+  outras_remuneracoes: DataSummary!
+  quantidade: Float!
+  remuneracao_base: DataSummary!
+}
+
+type SummaryzedMI {
+  ano: Float!
+  dados_coleta: Collect
+  error: miError
+  id_orgao: String
+  indice_transparencia: Score
+  mes: Float!
+  metadados: Metadata
+  pacote_de_dados: Backup
+  sumarios: Summaries
 }
 
 type User {
@@ -35,4 +168,10 @@ type User {
 input UserInput {
   email: String!
   name: String!
+}
+
+type miError {
+  cmd: String
+  err_msg: String
+  status: Float
 }
