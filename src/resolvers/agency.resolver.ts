@@ -2,6 +2,7 @@ import { Arg, Ctx, Query, Resolver } from "type-graphql";
 import { Context } from "../dataSources";
 import { Agency } from "../models/agency.model";
 import { AggregateIndexes } from "../models/aggregateIndexes.model";
+import { Params } from "../models/enum";
 import { SummaryzedMI } from "../models/summaryzedMI.model";
 
 @Resolver(Agency)
@@ -49,7 +50,7 @@ export class AgencyResolver {
 
     @Query(() => [AggregateIndexes])
     async getAggregateIndexes(
-        @Arg("param", { description: "Valores validos: grupo ou orgao" }) param: string,
+        @Arg("param", type => Params, { description: "Valores validos: grupo ou orgao" }) param: string,
         @Arg("valor", { description: "Jurisdição ou ID do órgão" }) valor: string,
         @Ctx() context: Context
     ): Promise<AggregateIndexes[]> {
@@ -58,7 +59,7 @@ export class AgencyResolver {
 
     @Query(() => [AggregateIndexes])
     async getAggregateIndexesByYear(
-        @Arg("param", { description: "Valores validos: grupo ou orgao" }) param: string,
+        @Arg("param", type => Params,{ description: "Valores validos: grupo ou orgao" }) param: string,
         @Arg("valor", { description: "Jurisdição ou ID do órgão" }) valor: string,
         @Arg("ano") year: number,
         @Ctx() context: Context
@@ -68,7 +69,7 @@ export class AgencyResolver {
 
     @Query(() => [AggregateIndexes])
     async getAggregateIndexesByYearAndMonth(
-        @Arg("param", { description: "Valores validos: grupo ou orgao" }) param: string,
+        @Arg("param", type => Params,{ description: "Valores validos: grupo ou orgao" }) param: string,
         @Arg("valor", { description: "Jurisdição ou ID do órgão" }) valor: string,
         @Arg("ano") year: number,
         @Arg("mes") month: number,

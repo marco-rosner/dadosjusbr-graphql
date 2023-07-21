@@ -1,6 +1,6 @@
 import { registerEnumType } from "type-graphql";
 
-enum Params {
+export enum Params {
     GRUPO = 'grupo',
     ORGAO = 'orgao'
 }

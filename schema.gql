@@ -91,12 +91,18 @@ type Mutation {
   updateUser(id: Float!, input: UserInput!): User!
 }
 
+"""Params to use in indice endpoints"""
+enum Params {
+  GRUPO
+  ORGAO
+}
+
 type Query {
   getAgencies: [Agency!]!
   getAgency(id: String!): Agency!
   getAggregateIndexes(
     """Valores validos: grupo ou orgao"""
-    param: String!
+    param: Params!
 
     """Jurisdição ou ID do órgão"""
     valor: String!
@@ -105,7 +111,7 @@ type Query {
     ano: Float!
 
     """Valores validos: grupo ou orgao"""
-    param: String!
+    param: Params!
 
     """Jurisdição ou ID do órgão"""
     valor: String!
@@ -115,7 +121,7 @@ type Query {
     mes: Float!
 
     """Valores validos: grupo ou orgao"""
-    param: String!
+    param: Params!
 
     """Jurisdição ou ID do órgão"""
     valor: String!
