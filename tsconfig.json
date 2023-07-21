@@ -7,7 +7,8 @@
         "esModuleInterop": true,
         "lib": ["es2018", "ESNext.AsyncIterable"],
         "emitDecoratorMetadata": true,
-        "experimentalDecorators": true
+        "experimentalDecorators": true,
+        "strictPropertyInitialization": false,
     },
     "exclude": ["node_modules"]
 }

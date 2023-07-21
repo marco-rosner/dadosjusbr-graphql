@@ -3,12 +3,25 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Agency {
+  entidade: String!
+  id_orgao: String!
+  jurisdicao: String!
+  nome: String!
+  ouvidoria: String!
+  possui_dados: String!
+  twitter_handle: String!
+  uf: String!
+  url: String!
+}
+
 type Mutation {
   createUser(input: UserInput!): User!
   updateUser(id: Float!, input: UserInput!): User!
 }
 
 type Query {
+  getAgencies: [Agency!]!
   getUser(id: Float!): User!
   getUsers: [User!]!
 }
