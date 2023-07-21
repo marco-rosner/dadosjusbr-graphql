@@ -3,7 +3,7 @@
 This project is a GraphQL server to query the data from DadosJusBR. Using Apollo Server, Express and Type GraphQL
 
 ## Prints
-TODO
+![Get Agencies](./getAgencies.jpeg?raw=true "Get Agencies")
 
 ## Project Setup
 
