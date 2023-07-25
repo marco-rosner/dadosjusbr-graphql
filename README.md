@@ -2,9 +2,6 @@
 
 This project is a GraphQL server to query the data from DadosJusBR. Using Apollo Server, Express and Type GraphQL
 
-## Prints
-![Get Agencies](./getAgencies.jpeg?raw=true "Get Agencies")
-
 ## Project Setup
 
 ```sh
@@ -16,3 +13,20 @@ npm install
 ```sh
 npm run start
 ```
+
+## Prints
+
+All Queries  
+![All Queries](./images/allQueries.png?raw=true "All Queries")
+
+Get Agencies
+![Get Agencies](./images/getAgencies.jpeg?raw=true "Get Agencies")
+
+Get Data By Agency
+![Get Data By Agency](./images/GetDatabyAgency.png?raw=true "Get Data By Agency")
+
+Get Indexes
+![Get Indexes](./images/getIndexes.png?raw=true "Get Indexes")
+
+Get Aggregate Indexes
+![Get Aggregate Indexes](./images/getAggregateIndexes.png?raw=true "Get Aggregate Indexes")
