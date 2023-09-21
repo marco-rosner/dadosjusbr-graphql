@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "nodemon --exec ts-node src/index.ts"
+    "start": "nodemon --exec ts-node src/index.ts",
+    "genDocsGPT": "bash genDocsGPT.sh"
   },
   "dependencies": {
     "apollo-datasource-rest": "^3.7.0",
