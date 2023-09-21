@@ -1,3 +1,5 @@
+[![genDocsGPT](https://img.shields.io/badge/Doc%20generated%20by-genDocsGPT-blue)](https://github.com/marco-rosner/genDocsGPT)
+
 # API Documentation
 
 ## Table of Contents
@@ -11,327 +13,168 @@
   - [UserInput](#userinput)
   - [IndexInformation](#indexinformation)
   - [Score](#score)
-  - [SummaryzedMI](#summaryzedmi)
   - [Backup](#backup)
   - [Collect](#collect)
   - [DataSummary](#datasummary)
   - [miError](#mierror)
+  - [SummaryzedMI](#summaryzedmi)
   - [AggregateIndexes](#aggregateindexes)
 - [API Endpoints](#api-endpoints)
   - [Get Orgaos](#get-orgaos)
-  - [Get Orgao By Id](#get-orgao-by-id)
-  - [Get Dados By Id](#get-dados-by-id)
-  - [Get Dados By Id and Ano](#get-dados-by-id-and-ano)
-  - [Get Dados By Id and Ano and Month](#get-dados-by-id-and-ano-and-month)
+  - [Get Orgao by ID](#get-orgao-by-id)
+  - [Get Dados by ID](#get-dados-by-id)
+  - [Get Dados by ID and Ano](#get-dados-by-id-and-ano)
+  - [Get Dados by ID, Ano, and Month](#get-dados-by-id-ano-and-month)
   - [Get Aggregate Indexes](#get-aggregate-indexes)
-  - [Get Aggregate Indexes By Year](#get-aggregate-indexes-by-year)
-  - [Get Aggregate Indexes By Year and Month](#get-aggregate-indexes-by-year-and-month)
+  - [Get Aggregate Indexes by Year](#get-aggregate-indexes-by-year)
+  - [Get Aggregate Indexes by Year and Month](#get-aggregate-indexes-by-year-and-month)
   - [Get Indexes](#get-indexes)
-  - [Get Indexes By Year](#get-indexes-by-year)
-  - [Get Indexes By Year and Month](#get-indexes-by-year-and-month)
+  - [Get Indexes by Year](#get-indexes-by-year)
+  - [Get Indexes by Year and Month](#get-indexes-by-year-and-month)
 
 ## Models
 
 ### Metadata
-```typescript
-import { Field, ObjectType } from "type-graphql";
-
-@ObjectType()
-export class Metadata {
-    @Field()
-    acesso: string
-    @Field()
-    dados_estritamente_tabulares: boolean
-    @Field()
-    despesas: string
-    @Field()
-    extensao: string
-    @Field()
-    formato_aberto: boolean
-    @Field()
-    manteve_consistencia_no_formato: boolean
-    @Field()
-    outras_receitas: string
-    @Field()
-    remuneracao_basica: string
-    @Field()
-    tem_cargo: boolean
-    @Field()
-    tem_lotacao: boolean
-    @Field()
-    tem_matricula: boolean
-}
-```
+| Field | Type |
+| --- | --- |
+| acesso | string |
+| dados_estritamente_tabulares | boolean |
+| despesas | string |
+| extensao | string |
+| formato_aberto | boolean |
+| manteve_consistencia_no_formato | boolean |
+| outras_receitas | string |
+| remuneracao_basica | string |
+| tem_cargo | boolean |
+| tem_lotacao | boolean |
+| tem_matricula | boolean |
 
 ### Params
-```typescript
-import { registerEnumType } from "type-graphql";
-
-export enum Params {
-    GRUPO = 'grupo',
-    ORGAO = 'orgao'
-}
-
-registerEnumType(Params, {
-    name: "Params",
-    description: "Params to use in indice endpoints"
-})
-```
+| Field | Type |
+| --- | --- |
+| GRUPO | string |
+| ORGAO | string |
 
 ### Summaries
-```typescript
-import { Field, ObjectType } from "type-graphql";
-import { Summary } from "./summary.model";
-
-@ObjectType()
-export class Summaries {
-    @Field()
-    membros_ativos: Summary
-}
-```
+| Field | Type |
+| --- | --- |
+| membros_ativos | Summary |
 
 ### Agency
-```typescript
-import { Field, ObjectType } from "type-graphql";
-import { Score } from "./score.model";
-import { SummaryzedMI } from "./summaryzedMI.model";
-
-@ObjectType({ description: "Orgão da Justiça"})
-export class Agency {
-    @Field({ description: "'Tribunal', 'Ministério' or 'Conselho'." })
-    entidade: string
-    @Field({ description: "'trt13'" })
-    id_orgao: string
-    @Field({ description: "'Estadual', 'Eleitroral', 'Militar', etc.." })
-    jurisdicao: string
-    @Field({ description: "'Tribunal Regional do Trabalho 13° Região'" })
-    nome: String
-    @Field({ description: "Agencys's ombudsman url" })
-    ouvidoria: string
-    @Field({ description: "Agencys's twitter handle" })
-    twitter_handle: string
-    @Field({ description: "Short code for federative unity." })
-    uf: string
-    @Field({ description: "ALink for state url", nullable: true })
-    url: string
-    @Field({ description: "If there is data from that agency", nullable: true })
-    possui_dados: boolean
-    @Field({ nullable: true })
-    total_coletas_realizadas: number
-    @Field({ nullable: true })
-    meses_com_dados: number
-    @Field({ nullable: true })
-    indice_transparencia: Score
-    @Field(type => [SummaryzedMI], { nullable: true })
-    coletas: [SummaryzedMI]
-}
-```
+| Field | Type | Description |
+| --- | --- | --- |
+| entidade | string | 'Tribunal', 'Ministério' or 'Conselho'. |
+| id_orgao | string | 'trt13' |
+| jurisdicao | string | 'Estadual', 'Eleitroral', 'Militar', etc.. |
+| nome | string | 'Tribunal Regional do Trabalho 13° Região' |
+| ouvidoria | string | Agencys's ombudsman url |
+| twitter_handle | string | Agencys's twitter handle |
+| uf | string | Short code for federative unity. |
+| url | string | ALink for state url |
+| possui_dados | boolean | If there is data from that agency |
+| total_coletas_realizadas | number |  |
+| meses_com_dados | number |  |
+| indice_transparencia | Score |  |
+| coletas | [SummaryzedMI] |  |
 
 ### Summary
-```typescript
-import { Field, ObjectType } from "type-graphql";
-import { DataSummary } from "./dataSummary.model";
-
-@ObjectType()
-export class Summary {
-    @Field()
-    quantidade: number
-    @Field()
-    remuneracao_base: DataSummary
-    @Field()
-    outras_remuneracoes: DataSummary
-    @Field()
-    descontos: DataSummary
-}
-```
+| Field | Type |
+| --- | --- |
+| quantidade | number |
+| remuneracao_base | DataSummary |
+| outras_remuneracoes | DataSummary |
+| descontos | DataSummary |
 
 ### User
-```typescript
-import { Field, ObjectType } from "type-graphql";
-
-@ObjectType()
-export class User {
-    @Field()
-    id!: number
-    @Field()
-    name!: string
-    @Field()
-    email!: string
-}
-```
+| Field | Type |
+| --- | --- |
+| id | number |
+| name | string |
+| email | string |
 
 ### UserInput
-```typescript
-import { Field, InputType, ObjectType } from "type-graphql";
-
-@InputType()
-export class UserInput implements Pick<User, "name" | "email"> {
-    @Field()
-    name!: string
-    @Field()
-    email!: string
-}
-```
+| Field | Type |
+| --- | --- |
+| name | string |
+| email | string |
 
 ### IndexInformation
-```typescript
-import { Field, ObjectType } from "type-graphql";
-
-@ObjectType()
-export class IndexInformation {
-    @Field({ nullable: true})
-    mes: number
-    @Field()
-    ano: number
-    @Field()
-    indice_transparencia: Score
-    @Field({ nullable: true})
-    metadados: Metadata 
-}
-```
+| Field | Type |
+| --- | --- |
+| mes | number |
+| ano | number |
+| indice_transparencia | Score |
+| metadados | Metadata |
 
 ### Score
-```typescript
-import { Field, ObjectType } from "type-graphql";
-
-@ObjectType()
-export class Score {
-    @Field()
-    indice_completude: number
-    @Field()
-    indice_facilidade: number
-    @Field()
-    indice_transparencia: number
-}
-```
-
-### SummaryzedMI
-```typescript
-import { Field, ObjectType } from "type-graphql";
-import { Backup } from "./backup.model";
-import { Collect } from "./collect.model";
-import { Metadata } from "./metadata.model";
-import { miError } from "./miError.model";
-import { Score } from "./score.model";
-import { Summaries } from "./summaries.model";
-
-@ObjectType()
-export class SummaryzedMI {
-    @Field()
-    ano: number
-    @Field()
-    mes: number
-    @Field({ nullable: true })
-    id_orgao: string
-    @Field({ nullable: true })
-    dados_coleta: Collect
-    @Field({ nullable: true })
-    error: miError
-    @Field({ nullable: true })
-    indice_transparencia: Score
-    @Field({ nullable: true })
-    metadados: Metadata
-    @Field({ nullable: true })
-    pacote_de_dados: Backup
-    @Field({ nullable: true })
-    sumarios: Summaries
-}
-```
+| Field | Type |
+| --- | --- |
+| indice_completude | number |
+| indice_facilidade | number |
+| indice_transparencia | number |
 
 ### Backup
-```typescript
-import { Field, ObjectType } from "type-graphql";
-
-@ObjectType()
-export class Backup {
-    @Field()
-    hash: string
-    @Field()
-    size: number
-    @Field()
-    url: string
-}
-```
+| Field | Type |
+| --- | --- |
+| hash | string |
+| size | number |
+| url | string |
 
 ### Collect
-```typescript
-import { Field, ObjectType } from "type-graphql";
-
-@ObjectType()
-export class Collect {
-    @Field()
-    duracao_segundos: number
-    @Field()
-    repositorio_coletor: string
-    @Field()
-    repositorio_parser: string
-    @Field()
-    versao_coletor: string
-    @Field()
-    versao_parser: string 
-}
-```
+| Field | Type |
+| --- | --- |
+| duracao_segundos | number |
+| repositorio_coletor | string |
+| repositorio_parser | string |
+| versao_coletor | string |
+| versao_parser | string |
 
 ### DataSummary
-```typescript
-import { Field, ObjectType } from "type-graphql";
-
-@ObjectType()
-export class DataSummary {
-    @Field()
-    max: number
-    @Field()
-    media: number
-    @Field({ nullable: true })
-    min: number
-    @Field()
-    total: number
-}
-```
+| Field | Type |
+| --- | --- |
+| max | number |
+| media | number |
+| min | number |
+| total | number |
 
 ### miError
-```typescript
-import { Field, ObjectType } from "type-graphql";
+| Field | Type |
+| --- | --- |
+| cmd | string |
+| err_msg | string |
+| status | number |
 
-@ObjectType()
-export class miError {
-    @Field({ nullable: true })
-    cmd: string
-    @Field({ nullable: true })
-    err_msg: string
-    @Field({ nullable: true })
-    status: number
-}
-```
+### SummaryzedMI
+| Field | Type |
+| --- | --- |
+| ano | number |
+| mes | number |
+| id_orgao | string |
+| dados_coleta | Collect |
+| error | miError |
+| indice_transparencia | Score |
+| metadados | Metadata |
+| pacote_de_dados | Backup |
+| sumarios | Summaries |
 
 ### AggregateIndexes
-```typescript
-import { Field, ObjectType } from "type-graphql";
-import { IndexInformation } from "./indexInformation.model";
-import { Score } from "./score.model";
-
-@ObjectType()
-export class AggregateIndexes {
-    @Field()
-    id_orgao: string
-    @Field()
-    agregado: Score
-    @Field(type => [IndexInformation], { nullable: true })
-    detalhe: [IndexInformation]
-}
-```
+| Field | Type |
+| --- | --- |
+| id_orgao | string |
+| agregado | Score |
+| detalhe | [IndexInformation] |
 
 ## API Endpoints
 
 ### Get Orgaos
-Get all orgaos.
+Retrieves a list of all orgaos.
 
-**Request:**
-```
+**Request**
+```shell
 GET /orgaos
 ```
 
-**Response:**
+**Response**
 ```json
 [
   {
@@ -420,15 +263,15 @@ GET /orgaos
 ]
 ```
 
-### Get Orgao By Id
-Get orgao by id.
+### Get Orgao by ID
+Retrieves an orgao by ID.
 
-**Request:**
-```
+**Request**
+```shell
 GET /orgao/{id}
 ```
 
-**Response:**
+**Response**
 ```json
 {
   "entidade": "string",
@@ -515,240 +358,300 @@ GET /orgao/{id}
 }
 ```
 
-### Get Dados By Id
-Get dados by id.
+### Get Dados by ID
+Retrieves dados by ID.
 
-**Request:**
-```
+**Request**
+```shell
 GET /dados/{id}
 ```
 
-**Response:**
+**Response**
 ```json
 {
-  "ano": 0,
-  "mes": 0,
+  "entidade": "string",
   "id_orgao": "string",
-  "dados_coleta": {
-    "duracao_segundos": 0,
-    "repositorio_coletor": "string",
-    "repositorio_parser": "string",
-    "versao_coletor": "string",
-    "versao_parser": "string"
-  },
-  "error": {
-    "cmd": "string",
-    "err_msg": "string",
-    "status": 0
-  },
+  "jurisdicao": "string",
+  "nome": "string",
+  "ouvidoria": "string",
+  "twitter_handle": "string",
+  "uf": "string",
+  "url": "string",
+  "possui_dados": true,
+  "total_coletas_realizadas": 0,
+  "meses_com_dados": 0,
   "indice_transparencia": {
     "indice_completude": 0,
     "indice_facilidade": 0,
     "indice_transparencia": 0
   },
-  "metadados": {
-    "acesso": "string",
-    "dados_estritamente_tabulares": true,
-    "despesas": "string",
-    "extensao": "string",
-    "formato_aberto": true,
-    "manteve_consistencia_no_formato": true,
-    "outras_receitas": "string",
-    "remuneracao_basica": "string",
-    "tem_cargo": true,
-    "tem_lotacao": true,
-    "tem_matricula": true
-  },
-  "pacote_de_dados": {
-    "hash": "string",
-    "size": 0,
-    "url": "string"
-  },
-  "sumarios": {
-    "membros_ativos": {
-      "quantidade": 0,
-      "remuneracao_base": {
-        "max": 0,
-        "media": 0,
-        "min": 0,
-        "total": 0
+  "coletas": [
+    {
+      "ano": 0,
+      "mes": 0,
+      "id_orgao": "string",
+      "dados_coleta": {
+        "duracao_segundos": 0,
+        "repositorio_coletor": "string",
+        "repositorio_parser": "string",
+        "versao_coletor": "string",
+        "versao_parser": "string"
       },
-      "outras_remuneracoes": {
-        "max": 0,
-        "media": 0,
-        "min": 0,
-        "total": 0
+      "error": {
+        "cmd": "string",
+        "err_msg": "string",
+        "status": 0
       },
-      "descontos": {
-        "max": 0,
-        "media": 0,
-        "min": 0,
-        "total": 0
+      "indice_transparencia": {
+        "indice_completude": 0,
+        "indice_facilidade": 0,
+        "indice_transparencia": 0
+      },
+      "metadados": {
+        "acesso": "string",
+        "dados_estritamente_tabulares": true,
+        "despesas": "string",
+        "extensao": "string",
+        "formato_aberto": true,
+        "manteve_consistencia_no_formato": true,
+        "outras_receitas": "string",
+        "remuneracao_basica": "string",
+        "tem_cargo": true,
+        "tem_lotacao": true,
+        "tem_matricula": true
+      },
+      "pacote_de_dados": {
+        "hash": "string",
+        "size": 0,
+        "url": "string"
+      },
+      "sumarios": {
+        "membros_ativos": {
+          "quantidade": 0,
+          "remuneracao_base": {
+            "max": 0,
+            "media": 0,
+            "min": 0,
+            "total": 0
+          },
+          "outras_remuneracoes": {
+            "max": 0,
+            "media": 0,
+            "min": 0,
+            "total": 0
+          },
+          "descontos": {
+            "max": 0,
+            "media": 0,
+            "min": 0,
+            "total": 0
+          }
+        }
       }
     }
-  }
+  ]
 }
 ```
 
-### Get Dados By Id and Ano
-Get dados by id and ano.
+### Get Dados by ID and Ano
+Retrieves dados by ID and Ano.
 
-**Request:**
-```
-GET /dados/{id}/{ano}
+**Request**
+```shell
+GET /dados/{id}/{year}
 ```
 
-**Response:**
+**Response**
 ```json
 {
-  "ano": 0,
-  "mes": 0,
+  "entidade": "string",
   "id_orgao": "string",
-  "dados_coleta": {
-    "duracao_segundos": 0,
-    "repositorio_coletor": "string",
-    "repositorio_parser": "string",
-    "versao_coletor": "string",
-    "versao_parser": "string"
-  },
-  "error": {
-    "cmd": "string",
-    "err_msg": "string",
-    "status": 0
-  },
+  "jurisdicao": "string",
+  "nome": "string",
+  "ouvidoria": "string",
+  "twitter_handle": "string",
+  "uf": "string",
+  "url": "string",
+  "possui_dados": true,
+  "total_coletas_realizadas": 0,
+  "meses_com_dados": 0,
   "indice_transparencia": {
     "indice_completude": 0,
     "indice_facilidade": 0,
     "indice_transparencia": 0
   },
-  "metadados": {
-    "acesso": "string",
-    "dados_estritamente_tabulares": true,
-    "despesas": "string",
-    "extensao": "string",
-    "formato_aberto": true,
-    "manteve_consistencia_no_formato": true,
-    "outras_receitas": "string",
-    "remuneracao_basica": "string",
-    "tem_cargo": true,
-    "tem_lotacao": true,
-    "tem_matricula": true
-  },
-  "pacote_de_dados": {
-    "hash": "string",
-    "size": 0,
-    "url": "string"
-  },
-  "sumarios": {
-    "membros_ativos": {
-      "quantidade": 0,
-      "remuneracao_base": {
-        "max": 0,
-        "media": 0,
-        "min": 0,
-        "total": 0
+  "coletas": [
+    {
+      "ano": 0,
+      "mes": 0,
+      "id_orgao": "string",
+      "dados_coleta": {
+        "duracao_segundos": 0,
+        "repositorio_coletor": "string",
+        "repositorio_parser": "string",
+        "versao_coletor": "string",
+        "versao_parser": "string"
       },
-      "outras_remuneracoes": {
-        "max": 0,
-        "media": 0,
-        "min": 0,
-        "total": 0
+      "error": {
+        "cmd": "string",
+        "err_msg": "string",
+        "status": 0
       },
-      "descontos": {
-        "max": 0,
-        "media": 0,
-        "min": 0,
-        "total": 0
+      "indice_transparencia": {
+        "indice_completude": 0,
+        "indice_facilidade": 0,
+        "indice_transparencia": 0
+      },
+      "metadados": {
+        "acesso": "string",
+        "dados_estritamente_tabulares": true,
+        "despesas": "string",
+        "extensao": "string",
+        "formato_aberto": true,
+        "manteve_consistencia_no_formato": true,
+        "outras_receitas": "string",
+        "remuneracao_basica": "string",
+        "tem_cargo": true,
+        "tem_lotacao": true,
+        "tem_matricula": true
+      },
+      "pacote_de_dados": {
+        "hash": "string",
+        "size": 0,
+        "url": "string"
+      },
+      "sumarios": {
+        "membros_ativos": {
+          "quantidade": 0,
+          "remuneracao_base": {
+            "max": 0,
+            "media": 0,
+            "min": 0,
+            "total": 0
+          },
+          "outras_remuneracoes": {
+            "max": 0,
+            "media": 0,
+            "min": 0,
+            "total": 0
+          },
+          "descontos": {
+            "max": 0,
+            "media": 0,
+            "min": 0,
+            "total": 0
+          }
+        }
       }
     }
-  }
+  ]
 }
 ```
 
-### Get Dados By Id and Ano and Month
-Get dados by id, ano, and month.
+### Get Dados by ID, Ano, and Month
+Retrieves dados by ID, Ano, and Month.
 
-**Request:**
-```
-GET /dados/{id}/{ano}/{month}
+**Request**
+```shell
+GET /dados/{id}/{year}/{month}
 ```
 
-**Response:**
+**Response**
 ```json
 {
-  "ano": 0,
-  "mes": 0,
+  "entidade": "string",
   "id_orgao": "string",
-  "dados_coleta": {
-    "duracao_segundos": 0,
-    "repositorio_coletor": "string",
-    "repositorio_parser": "string",
-    "versao_coletor": "string",
-    "versao_parser": "string"
-  },
-  "error": {
-    "cmd": "string",
-    "err_msg": "string",
-    "status": 0
-  },
+  "jurisdicao": "string",
+  "nome": "string",
+  "ouvidoria": "string",
+  "twitter_handle": "string",
+  "uf": "string",
+  "url": "string",
+  "possui_dados": true,
+  "total_coletas_realizadas": 0,
+  "meses_com_dados": 0,
   "indice_transparencia": {
     "indice_completude": 0,
     "indice_facilidade": 0,
     "indice_transparencia": 0
   },
-  "metadados": {
-    "acesso": "string",
-    "dados_estritamente_tabulares": true,
-    "despesas": "string",
-    "extensao": "string",
-    "formato_aberto": true,
-    "manteve_consistencia_no_formato": true,
-    "outras_receitas": "string",
-    "remuneracao_basica": "string",
-    "tem_cargo": true,
-    "tem_lotacao": true,
-    "tem_matricula": true
-  },
-  "pacote_de_dados": {
-    "hash": "string",
-    "size": 0,
-    "url": "string"
-  },
-  "sumarios": {
-    "membros_ativos": {
-      "quantidade": 0,
-      "remuneracao_base": {
-        "max": 0,
-        "media": 0,
-        "min": 0,
-        "total": 0
+  "coletas": [
+    {
+      "ano": 0,
+      "mes": 0,
+      "id_orgao": "string",
+      "dados_coleta": {
+        "duracao_segundos": 0,
+        "repositorio_coletor": "string",
+        "repositorio_parser": "string",
+        "versao_coletor": "string",
+        "versao_parser": "string"
       },
-      "outras_remuneracoes": {
-        "max": 0,
-        "media": 0,
-        "min": 0,
-        "total": 0
+      "error": {
+        "cmd": "string",
+        "err_msg": "string",
+        "status": 0
       },
-      "descontos": {
-        "max": 0,
-        "media": 0,
-        "min": 0,
-        "total": 0
+      "indice_transparencia": {
+        "indice_completude": 0,
+        "indice_facilidade": 0,
+        "indice_transparencia": 0
+      },
+      "metadados": {
+        "acesso": "string",
+        "dados_estritamente_tabulares": true,
+        "despesas": "string",
+        "extensao": "string",
+        "formato_aberto": true,
+        "manteve_consistencia_no_formato": true,
+        "outras_receitas": "string",
+        "remuneracao_basica": "string",
+        "tem_cargo": true,
+        "tem_lotacao": true,
+        "tem_matricula": true
+      },
+      "pacote_de_dados": {
+        "hash": "string",
+        "size": 0,
+        "url": "string"
+      },
+      "sumarios": {
+        "membros_ativos": {
+          "quantidade": 0,
+          "remuneracao_base": {
+            "max": 0,
+            "media": 0,
+            "min": 0,
+            "total": 0
+          },
+          "outras_remuneracoes": {
+            "max": 0,
+            "media": 0,
+            "min": 0,
+            "total": 0
+          },
+          "descontos": {
+            "max": 0,
+            "media": 0,
+            "min": 0,
+            "total": 0
+          }
+        }
       }
     }
-  }
+  ]
 }
 ```
 
 ### Get Aggregate Indexes
-Get aggregate indexes.
+Retrieves aggregate indexes.
 
-**Request:**
-```
+**Request**
+```shell
 GET /indice/{param}/{valor}
 ```
 
-**Response:**
+**Response**
 ```json
 {
   "id_orgao": "string",
@@ -784,15 +687,15 @@ GET /indice/{param}/{valor}
 }
 ```
 
-### Get Aggregate Indexes By Year
-Get aggregate indexes by year.
+### Get Aggregate Indexes by Year
+Retrieves aggregate indexes by year.
 
-**Request:**
-```
+**Request**
+```shell
 GET /indice/{param}/{valor}/{year}
 ```
 
-**Response:**
+**Response**
 ```json
 {
   "id_orgao": "string",
@@ -828,15 +731,15 @@ GET /indice/{param}/{valor}/{year}
 }
 ```
 
-### Get Aggregate Indexes By Year and Month
-Get aggregate indexes by year and month.
+### Get Aggregate Indexes by Year and Month
+Retrieves aggregate indexes by year and month.
 
-**Request:**
-```
+**Request**
+```shell
 GET /indice/{param}/{valor}/{year}/{month}
 ```
 
-**Response:**
+**Response**
 ```json
 {
   "id_orgao": "string",
@@ -873,14 +776,14 @@ GET /indice/{param}/{valor}/{year}/{month}
 ```
 
 ### Get Indexes
-Get all indexes.
+Retrieves all indexes.
 
-**Request:**
-```
+**Request**
+```shell
 GET /indice
 ```
 
-**Response:**
+**Response**
 ```json
 [
   {
@@ -908,15 +811,15 @@ GET /indice
 ]
 ```
 
-### Get Indexes By Year
-Get indexes by year.
+### Get Indexes by Year
+Retrieves indexes by year.
 
-**Request:**
-```
+**Request**
+```shell
 GET /indices/{year}
 ```
 
-**Response:**
+**Response**
 ```json
 [
   {
@@ -944,15 +847,15 @@ GET /indices/{year}
 ]
 ```
 
-### Get Indexes By Year and Month
-Get indexes by year and month.
+### Get Indexes by Year and Month
+Retrieves indexes by year and month.
 
-**Request:**
-```
+**Request**
+```shell
 GET /indices/{year}/{month}
 ```
 
-**Response:**
+**Response**
 ```json
 [
   {
