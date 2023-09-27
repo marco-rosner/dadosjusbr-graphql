@@ -4,6 +4,16 @@
 
 This project is a GraphQL server to query the data from DadosJusBR. Using Apollo Server, Express and Type GraphQL
 
+## Docker Hub
+
+To run this project using docker run this command:
+
+```sh
+docker pull marcorosner/dadosjusbr-graphql
+
+docker run -p 4000:4000 -d marcorosner/dadosjusbr-graphql
+```
+
 ## Project Setup
 
 ```sh
